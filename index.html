@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -11,7 +12,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e293b">
+    <link rel="apple-touch-icon" href="img/logo192.png">
+
+    <title>Wordle Pro</title>
 </head>
+
 <body>
 
     <div class="layout">
@@ -19,7 +27,7 @@
             <button class="icon-btn toggle-theme" onclick="toggleTheme()">🌓</button>
             <h1 class="logo">WORDLE <span style="color:var(--correct)">PRO</span></h1>
             <button class="icon-btn help-btn" onclick="openTutorial()">?</button>
-            
+
             <div class="stats-bar">
                 <div class="stat-box"><span class="label">PUNTOS</span><span id="score-display">0</span></div>
                 <div class="stat-box"><span class="label">RACHA</span><span id="streak-display">0</span></div>
@@ -62,7 +70,8 @@
                     <div class="cell present">O</div>
                     <div class="cell absent">C</div>
                     <div class="cell">A</div>
-                    <div class="cell">L</div></div>
+                    <div class="cell">L</div>
+                </div>
                 <p><small>La <b>V</b> está en la palabra y en la posición correcta.</small></p>
                 <p><small>La <b>O</b> está en la palabra pero en la posición incorrecta.</small></p>
                 <p><small>La <b>C</b> no está en la palabra en absoluto.</small></p>
@@ -72,4 +81,5 @@
     </div>
     <script src="script.js"></script>
 </body>
+
 </html>

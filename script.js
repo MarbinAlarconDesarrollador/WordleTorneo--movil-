@@ -202,10 +202,12 @@ window.onload = () => {
     if (!localStorage.getItem('visto')) openTutorial();
     initGame();
 };
+
+// REGISTRO DEL SERVICE WORKER
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('SW registrado con éxito'))
-            .catch(err => console.log('Fallo al registrar SW', err));
+            .then(reg => console.log('¡App lista para instalar!'))
+            .catch(err => console.log('Error de instalación', err));
     });
 }
