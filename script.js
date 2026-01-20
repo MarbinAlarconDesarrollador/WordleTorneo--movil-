@@ -180,7 +180,7 @@ function handleGameEnd(win) {
 
 function shareResults() {
     // CAMBIA ESTO por la URL real donde subas tu juego
-    const urlJuego = "https://github.com/MarbinAlarconDesarrollador/wordlemovilmarbin";
+    const urlJuego = "https://marbinalarcondesarrollador.github.io/wordlemovilmarbin/";
 
     let text = `Wordle Pro 🏆\n`;
     text += `Puntos: ${stats.score} | Racha: ${stats.streak}\n\n`;
