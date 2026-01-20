@@ -1,5 +1,4 @@
-// --- CONFIGURACIÓN ---
-const DICTIONARY = ["PERRO", "GATOS", "TIGRE", "CEBRA", "PANDA", "PULPO", "QUESO", "PLANO", "LUCES", "VALLE", "BARCO", "CIELO", "PLAYA", "FRUTA", "LIBRO"];
+const DICTIONARY = ["PERRO", "GATOS", "TIGRE", "CEBRA", "PANDA", "PULPO", "QUESO", "PLANO", "LUCES", "VALLE", "BARCO", "CIELO", "PLAYA", "FRUTA", "LIBRO", "NOCHE", "PIANO"];
 let targetWord = "";
 let currentGuess = "";
 let attempts = [];
@@ -19,7 +18,6 @@ const sounds = {
 };
 Object.values(sounds).forEach(s => s.volume = 0.2);
 
-// --- MOTOR DEL JUEGO ---
 function initGame() {
     document.getElementById('modal').classList.add('hidden');
     isGameOver = false;
@@ -27,20 +25,24 @@ function initGame() {
     attempts = [];
     letterStates = {};
     targetWord = DICTIONARY[Math.floor(Math.random() * DICTIONARY.length)].toUpperCase();
-
+    
     updateHeaderStats();
     setupKeyboard();
     drawGrid();
 }
 
+// TECLADO CORREGIDO (Array explícito)
 function setupKeyboard() {
-    const rows = ["QWERTYUIOP", "ASDFGHJKLÑ", "ENTER-ZXCVBNM-DEL"];
+    const rows = [
+        ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
+        ["A", "S", "D", "F", "G", "H", "J", "K", "L", "Ñ"],
+        ["ENTER", "Z", "X", "C", "V", "B", "N", "M", "DEL"]
+    ];
+
     rows.forEach((row, i) => {
         const rowEl = document.getElementById(`row${i + 1}`);
         rowEl.innerHTML = "";
-        const keys = row.includes('-') ? row.split('-').flatMap(k => k.length > 1 ? k : k.split('')) : row.split('');
-
-        keys.forEach(key => {
+        row.forEach(key => {
             const btn = document.createElement('button');
             btn.innerText = key;
             btn.className = 'key' + (key.length > 1 ? ' wide' : '');
@@ -82,11 +84,11 @@ function handleInput(key) {
         submitGuess();
     } else if (key === "DEL" || key === "BACKSPACE") {
         currentGuess = currentGuess.slice(0, -1);
-        sounds.key.play().catch(() => { });
+        sounds.key.play().catch(()=>{});
         drawGrid();
     } else if (currentGuess.length < 5 && /^[A-ZÑ]$/.test(key.toUpperCase())) {
         currentGuess += key.toUpperCase();
-        sounds.key.play().catch(() => { });
+        sounds.key.play().catch(()=>{});
         drawGrid();
         if (navigator.vibrate) navigator.vibrate(10);
     }
@@ -95,7 +97,7 @@ function handleInput(key) {
 async function submitGuess() {
     if (currentGuess.length < 5) {
         document.getElementById('grid').classList.add('shake');
-        sounds.error.play().catch(() => { });
+        sounds.error.play().catch(()=>{});
         setTimeout(() => document.getElementById('grid').classList.remove('shake'), 400);
         return;
     }
@@ -103,12 +105,12 @@ async function submitGuess() {
     const startIdx = attempts.length * 5;
     const cells = document.querySelectorAll('.cell');
     const guess = currentGuess;
-    isGameOver = true; // Bloqueo temporal
+    isGameOver = true;
 
     for (let i = 0; i < 5; i++) {
         const cell = cells[startIdx + i];
         cell.classList.add('flip');
-        sounds.flip.play().catch(() => { });
+        sounds.flip.play().catch(()=>{});
         await new Promise(r => setTimeout(r, 250));
         const status = getLetterStatus(guess[i], i);
         cell.classList.add(status);
@@ -143,71 +145,48 @@ function updateKeyboardUI() {
 
 function handleGameEnd(win) {
     isGameOver = true;
+    const modal = document.getElementById('modal');
     if (win) {
         const pts = (7 - attempts.length) * 100;
         stats.score += pts;
         stats.streak++;
-        sounds.win.play().catch(() => { });
+        sounds.win.play().catch(()=>{});
         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-        document.getElementById('modal-title').innerText = "¡ADIVINASTE!";
+        document.getElementById('modal-title').innerText = "¡SENSACIONAL!";
         document.getElementById('modal-points').innerText = `+${pts}`;
     } else {
         stats.streak = 0;
-        document.getElementById('modal-title').innerText = "¡CASI!";
+        document.getElementById('modal-title').innerText = "¡PERDISTE!";
         document.getElementById('modal-points').innerText = "+0";
     }
-
+    
     localStorage.setItem('w_streak', stats.streak);
     localStorage.setItem('w_score', stats.score);
     document.getElementById('modal-message').innerHTML = `La palabra era: <b>${targetWord}</b>`;
     document.getElementById('modal-streak').innerText = stats.streak;
     updateHeaderStats();
-    setTimeout(() => document.getElementById('modal').classList.remove('hidden'), 1000);
+    setTimeout(() => modal.classList.remove('hidden'), 1000);
 }
 
-//function shareResults() {
-//    let text = `Wordle Pro 🏆\nPuntos: ${stats.score}\nRacha: ${stats.streak}\n\n`;
-//    attempts.forEach(a => {
-//        for (let i = 0; i < 5; i++) {
-//            const s = getLetterStatus(a[i], i);
-//            text += s === "correct" ? "🟩" : s === "present" ? "🟨" : "⬛";
-//        }
-//        text += "\n";
-//    });
-//    if (navigator.share) navigator.share({ text });
-//    else { navigator.clipboard.writeText(text); alert("Copiado 📋"); }
-//}
+// TEMA OSCURO MANUAL
+function toggleTheme() {
+    const isDark = document.body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+}
 
 function shareResults() {
-    // CAMBIA ESTO por la URL real donde subas tu juego
-    const urlJuego = "https://marbinalarcondesarrollador.github.io/wordlemovilmarbin/";
-
-    let text = `Wordle Pro 🏆\n`;
-    text += `Puntos: ${stats.score} | Racha: ${stats.streak}\n\n`;
-
+    const url = "https://marbinalarcondesarrollador.github.io/WordleTorneo--movil-/"; 
+    let text = `Wordle Pro 🏆\nPuntos: ${stats.score} | Racha: ${stats.streak}\n\n`;
     attempts.forEach(a => {
-        let line = "";
-        for (let i = 0; i < 5; i++) {
+        for(let i=0; i<5; i++) {
             const s = getLetterStatus(a[i], i);
-            line += s === "correct" ? "🟩" : s === "present" ? "🟨" : "⬛";
+            text += s==="correct" ? "🟩" : s==="present" ? "🟨" : "⬛";
         }
-        text += line + "\n";
+        text += "\n";
     });
-
-    text += `\n¿Puedes superarme? Juega aquí: ${urlJuego}`;
-
-    if (navigator.share) {
-        navigator.share({
-            title: 'Mi resultado en Wordle Pro',
-            text: text
-        }).catch(() => {
-            // Si el usuario cancela o hay error
-        });
-    } else {
-        // Opción para computadoras o navegadores que no soportan navigator.share
-        navigator.clipboard.writeText(text);
-        alert("¡Resultado y link copiados al portapapeles! 📋");
-    }
+    text += `\nJuega aquí: ${url}`;
+    if (navigator.share) navigator.share({ text });
+    else { navigator.clipboard.writeText(text); alert("¡Copiado! 📋"); }
 }
 
 function updateHeaderStats() {
@@ -218,5 +197,8 @@ function updateHeaderStats() {
 function openTutorial() { document.getElementById('tutorial').classList.remove('hidden'); }
 function closeTutorial() { document.getElementById('tutorial').classList.add('hidden'); localStorage.setItem('visto', 'true'); }
 
-window.addEventListener('keydown', e => handleInput(e.key.toUpperCase() === "BACKSPACE" ? "DEL" : e.key.toUpperCase()));
-window.onload = () => { if (!localStorage.getItem('visto')) openTutorial(); initGame(); };
+window.onload = () => {
+    if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+    if (!localStorage.getItem('visto')) openTutorial();
+    initGame();
+};

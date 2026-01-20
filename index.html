@@ -1,36 +1,29 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
-    <title>Wordle Pro Móvil</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta property="og:title" content="Wordle Pro - El Reto Diario">
     <meta property="og:description" content="¿Podrás adivinar la palabra de hoy? ¡Demuestra tu inteligencia!">
     <meta property="og:image" content="img/logo.png">
-    <meta property="og:url" content="https://tu-url-aqui.com">
+    <meta property="og:url" content="https://marbinalarcondesarrollador.github.io/WordleTorneo--movil-/">
+    <title>Wordle Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
-
 <body>
 
     <div class="layout">
         <div class="header">
+            <button class="icon-btn toggle-theme" onclick="toggleTheme()">🌓</button>
             <h1 class="logo">WORDLE <span style="color:var(--correct)">PRO</span></h1>
+            <button class="icon-btn help-btn" onclick="openTutorial()">?</button>
+            
             <div class="stats-bar">
-                <div class="stat-box">
-                    <span class="label">PUNTOS</span>
-                    <span id="score-display">0</span>
-                </div>
-                <div class="stat-box">
-                    <span class="label">RACHA</span>
-                    <span id="streak-display">0</span>
-                </div>
+                <div class="stat-box"><span class="label">PUNTOS</span><span id="score-display">0</span></div>
+                <div class="stat-box"><span class="label">RACHA</span><span id="streak-display">0</span></div>
             </div>
-            <button class="help-circle" onclick="openTutorial()">?</button>
         </div>
 
         <div class="game-container">
@@ -47,7 +40,7 @@
     <div id="modal" class="modal hidden">
         <div class="modal-content">
             <h2 id="modal-title">¡GANASTE!</h2>
-            <p id="modal-message">La palabra era: XXXX</p>
+            <p id="modal-message"></p>
             <div class="modal-stats">
                 <div class="m-stat"><span id="modal-points">+0</span><label>Puntos</label></div>
                 <div class="m-stat"><span id="modal-streak">0</span><label>Racha</label></div>
@@ -64,22 +57,8 @@
             <h2>Cómo jugar</h2>
             <p>Adivina la palabra en 6 intentos.</p>
             <div class="example-container">
-                <div class="example-row">
-                    <div class="cell correct">V</div>
-                    <div class="cell">O</div>
-                    <div class="cell">C</div>
-                    <div class="cell">A</div>
-                    <div class="cell">L</div>
-                </div>
-                <p><small>La <b>V</b> está en la posición correcta.</small></p>
-                <div class="example-row">
-                    <div class="cell">M</div>
-                    <div class="cell present">E</div>
-                    <div class="cell">S</div>
-                    <div class="cell">A</div>
-                    <div class="cell">S</div>
-                </div>
-                <p><small>La <b>E</b> está en la palabra pero mal ubicada.</small></p>
+                <div class="example-row"><div class="cell correct">V</div><div class="cell">O</div><div class="cell">C</div><div class="cell">A</div><div class="cell">L</div></div>
+                <p><small>La <b>V</b> está en el lugar correcto.</small></p>
             </div>
             <button class="btn-primary" onclick="closeTutorial()">¡A JUGAR!</button>
         </div>
@@ -87,5 +66,4 @@
 
     <script src="script.js"></script>
 </body>
-
 </html>
