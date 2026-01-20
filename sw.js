@@ -5,7 +5,9 @@ const ASSETS = [
   './style.css',
   './script.js',
   './manifest.json',
-  './img/logo.png'
+  './img/logo.png',
+  './img/logo192.png', // Añadir estos dos
+  './img/logo512.png'
 ];
 
 self.addEventListener('install', (e) => {
