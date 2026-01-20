@@ -57,13 +57,19 @@
             <h2>Cómo jugar</h2>
             <p>Adivina la palabra en 6 intentos.</p>
             <div class="example-container">
-                <div class="example-row"><div class="cell correct">V</div><div class="cell">O</div><div class="cell">C</div><div class="cell">A</div><div class="cell">L</div></div>
-                <p><small>La <b>V</b> está en el lugar correcto.</small></p>
+                <div class="example-row">
+                    <div class="cell correct">V</div>
+                    <div class="cell present">O</div>
+                    <div class="cell absent">C</div>
+                    <div class="cell">A</div>
+                    <div class="cell">L</div></div>
+                <p><small>La <b>V</b> está en la palabra y en la posición correcta.</small></p>
+                <p><small>La <b>O</b> está en la palabra pero en la posición incorrecta.</small></p>
+                <p><small>La <b>C</b> no está en la palabra en absoluto.</small></p>
             </div>
             <button class="btn-primary" onclick="closeTutorial()">¡A JUGAR!</button>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
